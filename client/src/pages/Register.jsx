@@ -1,19 +1,22 @@
 import { useState, useEffect } from 'react';
 import { Logo, FormRow, Alert } from '../components';
 import Wrapper from '../assets/wrappers/RegisterPage';
+import { useAppContext } from '../context/appContext';
 
 const initialState = {
     name: '',
     email: '',
     password: '',
     isMember: true,
-    showAlert: false
+    //showAlert: false //Comes from context (global)
 }
 
 const Register = ()=>{
 
     const [values, setValues] = useState(initialState);
-    //For global state annd useNvaigate
+
+    //Global state and useNvaigate
+    const {isLoading, showAlert} = useAppContext();
 
     const toggleMember = () =>{
         setValues({...values, isMember:!values.isMember})   //Destructuring and Setting Equal to oposite!
@@ -40,7 +43,7 @@ const Register = ()=>{
                 <h3>{values.isMember ? 'Login' : 'Registrate'}</h3>
 
                 {/* Show Alert Component if ... */}
-                {values.showAlert && <Alert /> }
+                {showAlert && <Alert /> }
                 
                 {/* Name */}
                 {!values.isMember && ( 
