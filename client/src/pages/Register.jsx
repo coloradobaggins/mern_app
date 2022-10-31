@@ -16,7 +16,7 @@ const Register = ()=>{
     const [values, setValues] = useState(initialState);
 
     //Global state and useNvaigate
-    const {isLoading, showAlert} = useAppContext();
+    const { isLoading, showAlert, displayAlert } = useAppContext();
 
     const toggleMember = () =>{
         setValues({...values, isMember:!values.isMember})   //Destructuring and Setting Equal to oposite!
@@ -25,13 +25,36 @@ const Register = ()=>{
     }
 
     const handleChange = (e) => {
-        console.log(e.target);
+        //console.log(e.target);
+
+        /*
+            Update state
+            Don't overwrite all obj values (initialState). 
+            Destructuring. Get me all the current values that are in the state.
+            Dynamically access the property that is equal to a name of the input: [e.target.name]
+            Equal to its target value
+        */
+        setValues({...values, [e.target.name]: e.target.value}); 
 
     }
 
+    /*
+        Get from appContext displayAlert (useAppContext()). So if we don't have all
+        required fields fullfilled, show the alert.
+    */
     const onSubmit = (e) => {
         e.preventDefault();
+        
+        const { name, email, password, isMember } = values;
+        
+        if(!email || !password || (!isMember && !name)){
+            displayAlert();
+            return;
+        }
+        
         console.log(e.target);
+        console.log({...values})
+
     }
 
     return(
