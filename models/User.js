@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import validator from 'validator';
+import bcrypt from 'bcryptjs';
 
 const UserSchema = mongoose.Schema({
 
@@ -36,6 +37,16 @@ const UserSchema = mongoose.Schema({
         trim:true,
         default: 'ciudad'
     },
+
+});
+
+// 'Before we save/create the document run...' (Not executed on findeOne, findOneAndUpdate, etc)
+UserSchema.pre('save', async function(){  
+
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+
+    //console.log(this.password);
 
 });
 
