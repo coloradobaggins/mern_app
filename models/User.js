@@ -50,4 +50,8 @@ UserSchema.pre('save', async function(){
 
 });
 
+UserSchema.methods.createJWT = function(){
+    console.log(this);
+}
+
 export default mongoose.model('User', UserSchema);
