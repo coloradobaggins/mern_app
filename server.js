@@ -25,6 +25,7 @@ app.get('/', (req, res)=>{
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/operations', operationRouter);
 
+//Error middlewares
 app.use(notFound);          //404
 app.use(errorHandler);      //500
 
