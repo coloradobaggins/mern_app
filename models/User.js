@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import validator from 'validator';
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 
 const UserSchema = mongoose.Schema({
 
@@ -24,6 +25,7 @@ const UserSchema = mongoose.Schema({
         type:String,
         required:[true, 'La contraseña de usuario es requerido'],
         minlength: 5,
+        select: false
     },
     lastName:{
         type:String,
@@ -50,8 +52,10 @@ UserSchema.pre('save', async function(){
 
 });
 
+//Custom method
 UserSchema.methods.createJWT = function(){
-    console.log(this);
+    //console.log(this);  // this represents our documentModel
+    return jwt.sign({ userId:this._id }, process.env.JWT_SECRET, { expiresIn:process.env.JWT_LIFETIME });
 }
 
 export default mongoose.model('User', UserSchema);

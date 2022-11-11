@@ -19,7 +19,15 @@ const register = async(req, res, next)=>{
         }
 
         const user = await User.create(req.body);
-        res.status(201).json({user});
+        const token = user.createJWT();
+
+        res.status(201).json({
+            name: user.name,
+            email: user.email,
+            lastName: user.lastName,
+            location: user.location,
+            token
+        });
 
     }catch(err){
         console.log(err);
