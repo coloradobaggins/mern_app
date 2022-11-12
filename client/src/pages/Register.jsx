@@ -20,7 +20,7 @@ const Register = ()=>{
     const [values, setValues] = useState(initialState);
 
     //Global values (state)
-    const { user, isLoading, showAlert, displayAlert, registerUser } = useAppContext();
+    const { user, isLoading, showAlert, displayAlert, registerUser, loginUser } = useAppContext();
 
     const toggleMember = () =>{
         setValues({...values, isMember:!values.isMember})   //Destructuring and Setting Equal to oposite!
@@ -62,14 +62,20 @@ const Register = ()=>{
         const currentUser = {name, email, password};
         
         if(isMember){
-            console.log(`THis user is already a member!`);
+            
+            console.log(`THis user is already a member! login`);
+
+            loginUser(currentUser);
+
         }else{
+
             registerUser(currentUser);
+
         }
 
     }
 
-    //Se llama en el primer render, cuando cambia el user o el navigate
+    
     useEffect(()=>{
 
         if(user){
@@ -82,7 +88,7 @@ const Register = ()=>{
 
         }
 
-    }, [user, navigate]);
+    }, [user, navigate]);   //Se llama en el primer render, cuando cambia el user o el navigate
 
     return(
         <Wrapper className='full-page'>

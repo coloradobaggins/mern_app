@@ -6,7 +6,10 @@ import {
         CLEAR_ALERT,
         REGISTER_USER_BEGIN, 
         REGISTER_USER_SUCCESS, 
-        REGISTER_USER_ERROR 
+        REGISTER_USER_ERROR,
+        LOGIN_USER_BEGIN, 
+        LOGIN_USER_SUCCESS, 
+        LOGIN_USER_ERROR
     } from './actions';
 
 
@@ -75,9 +78,7 @@ const AppProvider = ({ children }) => {
 
         try{
 
-            const rawResponse = await axios.post('/api/v1/auth/register',
-                currentUser
-            );
+            const rawResponse = await axios.post('/api/v1/auth/register', currentUser);
 
             console.log(rawResponse);
             
@@ -110,8 +111,48 @@ const AppProvider = ({ children }) => {
 
     }
 
+    const loginUser = async(currentUser)=>{
+
+        console.log(`onLogin`)
+        console.log(currentUser);
+
+        dispatch({type: LOGIN_USER_BEGIN});
+
+        try{
+
+            const rawData = await axios.post('/api/v1/auth/login', currentUser);
+
+            console.log(rawData);
+
+            const {user, token, location} = rawData.data;
+
+            dispatch({
+                type:LOGIN_USER_SUCCESS,
+                payload:{
+                    user, token, location
+                }
+            });
+
+            //Add to local storage
+            saveUserInLocalStorage({user, token, location});
+
+        }catch(err){
+            console.log(err);
+
+            const msg = err.response.data.msg ? err.response.data.msg : 'Server caido. Intentalo mas tarde.';
+
+            dispatch({
+                type:LOGIN_USER_ERROR,
+                payload: msg
+            })
+        }
+
+        clearAlert();
+
+    }
+
     return(
-        <AppContext.Provider value={{...state, displayAlert, registerUser }}>
+        <AppContext.Provider value={{...state, displayAlert, registerUser, loginUser }}>
             { children }
         </AppContext.Provider>
     )

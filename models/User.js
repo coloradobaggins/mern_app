@@ -25,7 +25,7 @@ const UserSchema = mongoose.Schema({
         type:String,
         required:[true, 'La contraseña de usuario es requerido'],
         minlength: 5,
-        select: false
+        select: false   //Por default no sera devuelt en el documento
     },
     lastName:{
         type:String,
@@ -56,6 +56,11 @@ UserSchema.pre('save', async function(){
 UserSchema.methods.createJWT = function(){
     //console.log(this);  // this represents our documentModel
     return jwt.sign({ userId:this._id }, process.env.JWT_SECRET, { expiresIn:process.env.JWT_LIFETIME });
+}
+
+UserSchema.methods.comparePassword = async function(userPass){
+    const isMatch = await bcrypt.compare(userPass, this.password);
+    return isMatch;
 }
 
 export default mongoose.model('User', UserSchema);
