@@ -1,3 +1,4 @@
+import { initialState } from './appContext';
 import { 
             DISPLAY_ALERT, 
             CLEAR_ALERT, 
@@ -6,7 +7,9 @@ import {
             REGISTER_USER_ERROR,
             LOGIN_USER_BEGIN, 
             LOGIN_USER_SUCCESS, 
-            LOGIN_USER_ERROR
+            LOGIN_USER_ERROR,
+            TOGGLE_SIDEBAR,
+            LOGOUT_USER
         } from './actions';
 
 const reducer = (state, action)=>{
@@ -91,7 +94,24 @@ const reducer = (state, action)=>{
         }
     }
 
-    throw new Error(`No existe tal accion: ${action}`);
+    if(action.type === TOGGLE_SIDEBAR){
+        return {
+            ...state,
+            showSidebar: !state.showSidebar //Set the oposite value of showSidebar from state values
+        }
+    }
+
+    if(action.type === LOGOUT_USER){
+        return{
+            ...initialState,
+            user: null,
+            token: null,
+            userLocation: '',
+            jobLocation: ''
+        }
+    }
+
+    throw new Error(`No existe el tipo de accion: ${action}`);
 }
 
 export default reducer;
