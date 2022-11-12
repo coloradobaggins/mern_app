@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Logo, FormRow, Alert } from '../components';
 import Wrapper from '../assets/wrappers/RegisterPage';
 import { useAppContext } from '../context/appContext';
@@ -13,10 +14,13 @@ const initialState = {
 
 const Register = ()=>{
 
+    const navigate = useNavigate();
+
+    //Local values (state)
     const [values, setValues] = useState(initialState);
 
-    //Global state and useNvaigate
-    const { isLoading, showAlert, displayAlert } = useAppContext();
+    //Global values (state)
+    const { user, isLoading, showAlert, displayAlert, registerUser } = useAppContext();
 
     const toggleMember = () =>{
         setValues({...values, isMember:!values.isMember})   //Destructuring and Setting Equal to oposite!
@@ -52,14 +56,37 @@ const Register = ()=>{
             return;
         }
         
-        console.log(e.target);
-        console.log({...values})
+   
+        //console.log(values);
+        
+        const currentUser = {name, email, password};
+        
+        if(isMember){
+            console.log(`THis user is already a member!`);
+        }else{
+            registerUser(currentUser);
+        }
 
     }
 
+    //Se llama en el primer render, cuando cambia el user o el navigate
+    useEffect(()=>{
+
+        if(user){
+
+            setTimeout(()=>{
+
+                navigate('/');  //Home redirect
+
+            }, 2500)
+
+        }
+
+    }, [user, navigate]);
+
     return(
         <Wrapper className='full-page'>
-            Register
+            
             <form className='form' onSubmit={onSubmit}>
                 <Logo />
 
@@ -95,7 +122,11 @@ const Register = ()=>{
                     value={values.password}
                     handleChange={handleChange}
                 />
-                <button type='submit' className='btn btn-block'>Enviar</button>
+                <button 
+                    type='submit' className='btn btn-block'
+                    disabled={isLoading}>
+                        Enviar
+                </button>
                 <p>
                     {values.isMember ? 'Registrarse para ingresar' : 'Ya estas registrado?'}
                     <button type='button' onClick={toggleMember} className='member-btn'>
