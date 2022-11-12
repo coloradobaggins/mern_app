@@ -1,5 +1,5 @@
 import User from '../models/User.js';
-import {BadRequestError} from '../errors/index.js';
+import {BadRequestError, UnauthenticatedError} from '../errors/index.js';
 
 
 const register = async(req, res, next)=>{
@@ -22,11 +22,16 @@ const register = async(req, res, next)=>{
         const token = user.createJWT();
 
         res.status(201).json({
-            name: user.name,
-            email: user.email,
-            lastName: user.lastName,
-            location: user.location,
+
+            user:{
+                name: user.name,
+                email: user.email,
+                lastName: user.lastName,
+                location: user.location,
+                
+            },
             token
+            
         });
 
     }catch(err){
@@ -37,8 +42,34 @@ const register = async(req, res, next)=>{
 
 }
 
-const login = (req, res)=>{
-    res.send(`Login user`);
+const login = async(req, res)=>{
+
+    const {email, password} = req.body;
+
+    console.log(`Estamos en server/login. datos: ${email} - ${password}`);
+    
+    if(!email || !password){
+        throw new BadRequestError('Todos los campos son obligatorios');
+    }
+
+    const user = await User.findOne({email}).select('+password');   // (Override/force selected false in user document)
+
+    if(!user){
+        throw new UnauthenticatedError('Datos incorrectos');
+    }
+
+    console.log(user);
+
+    const checkPassword = await user.comparePassword(password);
+
+    if(!checkPassword){
+        throw new UnauthenticatedError('Datos incorrectos');
+    }
+
+    const token = user.createJWT();
+    user.password = undefined;      //No enviar en la respuesta
+
+    res.status(200).json({user, token});
 }
 
 const updateUser = (req, res)=>{

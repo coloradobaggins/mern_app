@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import connectDB from './db/connect.js';
 import cors from 'cors';
+import morgan from 'morgan';
 //Routers
 import authRouter from './routes/auth.routes.js';
 import operationRouter from './routes/operations.routes.js'
@@ -12,6 +13,10 @@ import errorHandler from './middlewares/error-handler.js';
 const app = express();
 dotenv.config();
 const PORT = process.env.PORT || 5000;
+
+if(process.env.NODE_ENV !== 'PROD'){
+    app.use(morgan('dev'));
+}
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
