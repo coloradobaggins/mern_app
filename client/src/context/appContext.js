@@ -172,7 +172,7 @@ const AppProvider = ({ children }) => {
         removeUserFromLocalStorage();
 
     }
-
+    
     return(
         <AppContext.Provider value={{...state, displayAlert, registerUser, loginUser, toggleSidebar, logoutUser }}>
             { children }
