@@ -11,7 +11,10 @@ import {
         LOGIN_USER_SUCCESS, 
         LOGIN_USER_ERROR,
         TOGGLE_SIDEBAR,
-        LOGOUT_USER
+        LOGOUT_USER,
+        UPDATE_USER_BEGIN,
+        UPDATE_USER_SUCCESS,
+        UPDATE_USER_ERROR
     } from './actions';
 
 
@@ -173,8 +176,54 @@ const AppProvider = ({ children }) => {
 
     }
     
+    const updateUser = async(theUser)=> {
+
+        console.log(theUser);
+
+        dispatch({type: UPDATE_USER_BEGIN});
+
+        try{
+
+            const rawData = await axios.patch('/api/v1/auth/updateUser', theUser, {
+                headers:{
+                    Authorization: `Bearer ${state.token}`,
+                },
+            });
+
+            console.log(rawData);
+            console.log(rawData.data);
+
+            const { user, token } = rawData.data;
+            const location = user.location;
+
+           
+
+            
+            dispatch({
+                type: UPDATE_USER_SUCCESS,
+                payload: user, token, location
+            });
+            
+
+            saveUserInLocalStorage({user, token, location});
+
+        }catch(err){
+            console.log(err);
+
+            const msg = err.response.data.msg ? err.response.data.msg : 'Server caido. Intentalo mas tarde.';
+
+            dispatch({
+                type: UPDATE_USER_ERROR,
+                payload: msg
+            })
+        }
+        
+        clearAlert();
+
+    }
+
     return(
-        <AppContext.Provider value={{...state, displayAlert, registerUser, loginUser, toggleSidebar, logoutUser }}>
+        <AppContext.Provider value={{...state, displayAlert, registerUser, loginUser, toggleSidebar, logoutUser, updateUser }}>
             { children }
         </AppContext.Provider>
     )

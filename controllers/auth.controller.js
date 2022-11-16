@@ -1,5 +1,5 @@
 import User from '../models/User.js';
-import {BadRequestError, UnauthenticatedError} from '../errors/index.js';
+import { BadRequestError, UnauthenticatedError } from '../errors/index.js';
 
 
 const register = async(req, res, next)=>{
@@ -67,13 +67,38 @@ const login = async(req, res)=>{
     }
 
     const token = user.createJWT();
-    user.password = undefined;      //No enviar en la respuesta
+    user.password = undefined;      //No devolver el pass en la respuesta
 
     res.status(200).json({user, token});
 }
 
-const updateUser = (req, res)=>{
-    res.send(`updateUser`);
+const updateUser = async(req, res)=>{
+
+    const {name, lastName, location } = req.body;
+
+    if(!name || !lastName || !location){
+        throw new BadRequestError('Todos los campos son obligatorios para el user update');
+    }
+
+    console.log(`on update user: `);
+    const userId = req.user.userId;
+
+    const user = await User.findOne({_id: userId});
+
+    //console.log(user);
+    
+    user.name = name;
+    user.lastName = lastName;
+    user.location = location;
+
+    await user.save();
+
+    const token = user.createJWT();
+
+    res.status(200).json({
+        token,
+        user
+    })
 }
 
 export { register, login, updateUser }

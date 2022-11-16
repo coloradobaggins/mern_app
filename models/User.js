@@ -3,7 +3,7 @@ import validator from 'validator';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
-const UserSchema = mongoose.Schema({
+const UserSchema = new mongoose.Schema({
 
     name:{
         type:String,
@@ -42,11 +42,22 @@ const UserSchema = mongoose.Schema({
 
 });
 
-// 'Before we save/create the document run...' (Not executed on findeOne, findOneAndUpdate, etc)
+/**
+ * .save/.create in document executes .pre method ...' (Not executed on findeOne, findOneAndUpdate, etc)
+ *  ( Password is set to select: false ) it will be undefined on create 
+ * 
+ */ 
 UserSchema.pre('save', async function(){  
+    
+    console.log(this.modifiedPaths());      //Devuelvo los campos modificados en save()
+    console.log(this.isModified('name'));   //Check for modified field
+    
+    if(this.isModified('password')){
 
-    const salt = await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password, salt);
+        const salt = await bcrypt.genSalt(10);
+        this.password = await bcrypt.hash(this.password, salt);
+    }
+    
 
     //console.log(this.password);
 
@@ -55,7 +66,11 @@ UserSchema.pre('save', async function(){
 //Custom method
 UserSchema.methods.createJWT = function(){
     //console.log(this);  // this represents our documentModel
-    return jwt.sign({ userId:this._id }, process.env.JWT_SECRET, { expiresIn:process.env.JWT_LIFETIME });
+    return jwt.sign(
+        { userId:this._id }, 
+        process.env.JWT_SECRET, 
+        { expiresIn:process.env.JWT_LIFETIME }
+    );
 }
 
 UserSchema.methods.comparePassword = async function(userPass){
