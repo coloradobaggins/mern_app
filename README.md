@@ -1,6 +1,6 @@
 ### ShareMarine
 
-Instalar dependencias:
+Instalar dependencias del server:
 
 ```
 
@@ -13,6 +13,16 @@ Correr el server:
 ```
 
 npm start
+
+```
+
+Instalar dependencias del cliente:
+
+```
+
+cd client
+
+npm install
 
 ```
 
