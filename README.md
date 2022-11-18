@@ -1,5 +1,8 @@
 ### ShareMarine
 
+mern app
+reactjs + nodejs + jwt + mongodb
+
 Instalar dependencias del server:
 
 ```
