@@ -1,6 +1,6 @@
 const Stats = ()=>{
     return(
-        <h1>Stats shared layout</h1>
+        <h1>Resumen de actividad</h1>
     );
 }
 

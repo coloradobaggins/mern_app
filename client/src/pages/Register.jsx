@@ -63,7 +63,7 @@ const Register = ()=>{
         
         if(isMember){
             
-            console.log(`THis user is already a member! login`);
+            console.log(`ya es usuario, login`);
 
             loginUser(currentUser);
 
@@ -96,7 +96,7 @@ const Register = ()=>{
             <form className='form' onSubmit={onSubmit}>
                 <Logo />
 
-                <h3>{values.isMember ? 'Login' : 'Registrate'}</h3>
+                <h3>{values.isMember ? 'Ingresá' : 'Registrate'}</h3>
 
                 {/* Show Alert Component if ... */}
                 {showAlert && <Alert /> }

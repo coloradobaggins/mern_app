@@ -1,5 +1,4 @@
 
-import main from '../assets/images/main.svg';
 import Wrapper from '../assets/wrappers/LandingPage';
 import { Logo } from '../components';
 import { Link } from 'react-router-dom';
@@ -12,16 +11,13 @@ const Landing = () => {
                 </nav>
                 <div className='container page'>
                 <div className='info'>
-                    <h1>Title name <span>App</span></h1>
+                    <h1>Share<span>Marine</span></h1>
                     <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt 
-                        ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation 
-                        ullamco laboris nisi ut aliquip ex ea commodo.
+                        Bienvenido al sistema de gestion de operaciones para el agente maritimo!
                     </p>
-                    <Link to="/register" className='btn btn-hero'>Ingresar-Registrarse</Link>
+                    <Link to="/register" className='btn btn-hero btn-landing'>Ingresar-Registrarse</Link>
                 </div>
              </div>
-             <img src={main} alt='presentation img' className='img main-img' />
         </Wrapper>
     )
 }

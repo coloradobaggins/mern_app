@@ -9,6 +9,7 @@ import operationRouter from './routes/operations.routes.js'
 //Middlewares
 import notFound from './middlewares/not-found.js';
 import errorHandler from './middlewares/error-handler.js';
+import authenticate from './middlewares/authenticate.js';
 
 const app = express();
 dotenv.config();
@@ -35,7 +36,7 @@ app.get('/api/v1', (req, res)=>{
 });
 
 app.use('/api/v1/auth', authRouter);
-app.use('/api/v1/operations', operationRouter);
+app.use('/api/v1/operations', authenticate, operationRouter);
 
 //Error middlewares
 app.use(notFound);          //404

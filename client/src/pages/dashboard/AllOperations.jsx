@@ -1,6 +1,11 @@
+import { OperationsContainer, FilterOpContainer } from "../../components";
+
 const AllOperations = ()=>{
     return(
-        <h1>All operation shared layout</h1>
+        <>
+            <FilterOpContainer />
+            <OperationsContainer />
+        </>
     );
 }
 

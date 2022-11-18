@@ -1,3 +1,4 @@
+import { initialState } from './appContext';
 import { 
             DISPLAY_ALERT, 
             CLEAR_ALERT, 
@@ -6,7 +7,18 @@ import {
             REGISTER_USER_ERROR,
             LOGIN_USER_BEGIN, 
             LOGIN_USER_SUCCESS, 
-            LOGIN_USER_ERROR
+            LOGIN_USER_ERROR,
+            TOGGLE_SIDEBAR,
+            LOGOUT_USER,
+            UPDATE_USER_BEGIN,
+            UPDATE_USER_SUCCESS,
+            UPDATE_USER_ERROR,
+            CREATE_OP_BEGIN,
+            CREATE_OP_SUCCESS,
+            CREATE_OP_ERROR,
+            GET_OP_BEGIN,
+            GET_OP_SUCCESS,
+            GET_OP_ERROR
         } from './actions';
 
 const reducer = (state, action)=>{
@@ -91,7 +103,103 @@ const reducer = (state, action)=>{
         }
     }
 
-    throw new Error(`No existe tal accion: ${action}`);
+    if(action.type === TOGGLE_SIDEBAR){
+        return {
+            ...state,
+            showSidebar: !state.showSidebar //Set the oposite value of showSidebar from state values
+        }
+    }
+
+    if(action.type === LOGOUT_USER){
+        return{
+            ...initialState,
+            user: null,
+            token: null,
+            userLocation: '',
+            jobLocation: ''
+        }
+    }
+
+    if(action.type === UPDATE_USER_BEGIN){
+        return{
+            ...state,
+            isLoading: true
+        }
+    }
+
+    if(action.type === UPDATE_USER_SUCCESS){
+        return {
+            ...state,
+            isLoading: false,
+            user: action.payload.user,
+            token: action.payload.token,
+            userLocation: action.payload.location,
+            jobLocation: action.payload.location,
+            showAlert: true,
+            alertType: 'success',
+            alertText: 'Perfil actualizado!'
+        }
+    }
+
+    if(action.type === UPDATE_USER_ERROR){
+        return {
+            ...state,
+            isLoading: false,
+            showAlert: true,
+            alertType: 'danger',
+            alertText: action.payload.msg
+        }
+    }
+
+    if(action.type === CREATE_OP_BEGIN){
+        return {
+            ...state,
+            isLoading: true
+        }
+    }
+
+    if(action.type === CREATE_OP_SUCCESS){
+        return {
+            ...state,
+            isLoading: false,
+            showAlert: true,
+            alertType: 'success',
+            alertText: 'Operacion creada'
+        }
+    }
+
+    if(action.type === CREATE_OP_ERROR){
+        return {
+            ...state,
+            isLoading: false,
+            showAlert: true,
+            alertType: 'danger',
+            alertText: action.payload.msg
+        }
+    }
+
+    if(action.type === GET_OP_BEGIN ){
+        return {
+            ...state,
+            isLoading: true
+        }
+    }
+
+    if(action.type === GET_OP_SUCCESS){
+
+        //console.log(`reducer: payload get op:`)
+        //console.log(action.payload)
+
+        return {
+            ...state,
+            isLoading: false,
+            operations: action.payload.operations,
+            totalOperations: action.payload.cantOperations,
+            cantPages: action.payload.cantPages
+        }
+    }
+
+    throw new Error(`No existe el tipo de accion: ${action}`);
 }
 
 export default reducer;

@@ -1,13 +1,13 @@
 import AddOperation from './AddOperation';
 import AllOperations from './AllOperations';
 import Profile from './Profile';
-import SharedLayout from './SharedLayout';
+import SharedPage from './SharedPage';
 import Stats from './Stats';
 
 export {
     AddOperation,
     AllOperations,
     Profile,
-    SharedLayout,
+    SharedPage,
     Stats
 }
