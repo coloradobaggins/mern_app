@@ -25,3 +25,5 @@ cd client
 npm start
 
 ```
+
+Setear variables de entorno!
