@@ -54,10 +54,10 @@ const Wrapper = styled.aside`
     transition: var(--transition);
   }
   .nav-link:hover {
-    color: var(--grey-900);
+    
   }
   .nav-link:hover .icon {
-    color: var(--primary-500);
+    
   }
   .icon {
     font-size: 1.5rem;

@@ -41,18 +41,6 @@ const Wrapper = styled.article`
       letter-spacing: var(--letterSpacing);
     }
   }
-  .pending {
-    background: #fcefc7;
-    color: #e9b949;
-  }
-  .interview {
-    background: #e0e8f9;
-    color: #647acb;
-  }
-  .declined {
-    color: #d66a6a;
-    background: #ffeeee;
-  }
   .content {
     padding: 1rem 1.5rem;
   }
@@ -79,7 +67,7 @@ const Wrapper = styled.article`
     width: 100px;
     height: 30px;
   }
-  footer {
+  .footerOp {
     margin-top: 1rem;
   }
   .edit-btn,
@@ -96,6 +84,10 @@ const Wrapper = styled.article`
   .delete-btn {
     color: var(--red-dark);
     background: var(--red-light);
+  }
+  .timelog-btn {
+    color: var(--yellow-dark);
+    background: var(--yellow-light);
   }
   &:hover .actions {
     visibility: visible;

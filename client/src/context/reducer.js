@@ -12,7 +12,13 @@ import {
             LOGOUT_USER,
             UPDATE_USER_BEGIN,
             UPDATE_USER_SUCCESS,
-            UPDATE_USER_ERROR
+            UPDATE_USER_ERROR,
+            CREATE_OP_BEGIN,
+            CREATE_OP_SUCCESS,
+            CREATE_OP_ERROR,
+            GET_OP_BEGIN,
+            GET_OP_SUCCESS,
+            GET_OP_ERROR
         } from './actions';
 
 const reducer = (state, action)=>{
@@ -142,6 +148,54 @@ const reducer = (state, action)=>{
             showAlert: true,
             alertType: 'danger',
             alertText: action.payload.msg
+        }
+    }
+
+    if(action.type === CREATE_OP_BEGIN){
+        return {
+            ...state,
+            isLoading: true
+        }
+    }
+
+    if(action.type === CREATE_OP_SUCCESS){
+        return {
+            ...state,
+            isLoading: false,
+            showAlert: true,
+            alertType: 'success',
+            alertText: 'Operacion creada'
+        }
+    }
+
+    if(action.type === CREATE_OP_ERROR){
+        return {
+            ...state,
+            isLoading: false,
+            showAlert: true,
+            alertType: 'danger',
+            alertText: action.payload.msg
+        }
+    }
+
+    if(action.type === GET_OP_BEGIN ){
+        return {
+            ...state,
+            isLoading: true
+        }
+    }
+
+    if(action.type === GET_OP_SUCCESS){
+
+        //console.log(`reducer: payload get op:`)
+        //console.log(action.payload)
+
+        return {
+            ...state,
+            isLoading: false,
+            operations: action.payload.operations,
+            totalOperations: action.payload.cantOperations,
+            cantPages: action.payload.cantPages
         }
     }
 

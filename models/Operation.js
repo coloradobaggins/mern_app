@@ -16,16 +16,15 @@ const OperationSchema = new mongoose.Schema({
         type: [String],
         required: [true, 'Los productos de la operacion son obligatorios']
     },
-    status: {
+    type: {
         type: String,
         enum: ['carga', 'descarga'],
         default: 'carga'
-
     },
     operationLocation: {
         type: String,
-        default: 'ciudad',
-        required: true
+        required: true,
+        default: 'ciudad'
     },
     createdBy: {
         type: mongoose.Types.ObjectId,

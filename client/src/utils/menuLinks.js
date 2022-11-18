@@ -4,10 +4,10 @@ import { FaWpforms } from 'react-icons/fa';
 import { ImProfile } from 'react-icons/im';
 
 const menuLinks = [
-    {id:1, text:'stats', path:'/', icon: <IoBarChartSharp />},
-    {id:2, text:'all operations', path:'all-operations', icon: <MdQueryStats />},
-    {id:3, text:'add operations', path:'add-operation', icon: <FaWpforms />},
-    {id:4, text:'profile', path:'profile', icon: <ImProfile />},
+    {id:1, text:'Resumen', path:'/', icon: <IoBarChartSharp />},
+    {id:2, text:'Operaciones', path:'all-operations', icon: <MdQueryStats />},
+    {id:3, text:'Nueva operacion', path:'add-operation', icon: <FaWpforms />},
+    {id:4, text:'Perfil', path:'profile', icon: <ImProfile />},
 ];
 
 export default menuLinks;

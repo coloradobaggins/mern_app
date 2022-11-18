@@ -14,7 +14,13 @@ import {
         LOGOUT_USER,
         UPDATE_USER_BEGIN,
         UPDATE_USER_SUCCESS,
-        UPDATE_USER_ERROR
+        UPDATE_USER_ERROR,
+        CREATE_OP_BEGIN,
+        CREATE_OP_SUCCESS,
+        CREATE_OP_ERROR,
+        GET_OP_BEGIN,
+        GET_OP_SUCCESS,
+        GET_OP_ERROR
     } from './actions';
 
 
@@ -31,8 +37,15 @@ const initialState = {
     user: user ? JSON.parse(user) : null,
     token: token,
     userLocation: userLocation || '',
-    jobLocation: userLocation || '',
-    showSidebar: false
+    showSidebar: false,
+    isEditing: false,
+    idOperationEdit: '',
+    operationLocation: userLocation || '',
+    typeOpOptions: ['carga', 'descarga'],
+    operations: [],                             //Operaciones totaales del user
+    totalOperations: 0,                          //Cant operaciones
+    opPages: 1,                                 //Paginas a mostrar
+    cantPages: 1                                     //Pagina a mostrar por default
 }
 
 const AppContext = React.createContext();
@@ -222,8 +235,105 @@ const AppProvider = ({ children }) => {
 
     }
 
+    const addOperation = async(opData) =>{
+
+        console.log(`opData: `);
+        console.log(opData);
+
+        dispatch({ type: CREATE_OP_BEGIN });
+
+        try{
+
+            const rawData = await axios.post('/api/v1/operations/op', opData, {
+                headers:{
+                    Authorization: `Bearer ${state.token}`,
+                },
+            });
+
+            console.log(rawData.data);
+
+            dispatch({type: CREATE_OP_SUCCESS});
+
+        }catch(err){
+            console.log(err);
+
+            const msg = err.response.data.msg ? err.response.data.msg : 'Server caido. Intentalo mas tarde.';
+
+            dispatch({
+                type: CREATE_OP_ERROR,
+                payload: msg
+            });
+
+        }
+
+        clearAlert();
+
+    }
+
+    const getOperations = async()=> {
+
+        dispatch({type: GET_OP_BEGIN});
+
+        try{
+
+            const rawData = await axios.get('/api/v1/operations/op', {
+                headers:{
+                    Authorization: `Bearer ${state.token}`,
+                }
+            });
+
+            console.log(rawData.data);
+            
+            const { operations, cantOperations, cantPages } = rawData.data;
+
+
+            console.log(`CantOperations:::: `);
+            console.log(cantOperations);
+
+            dispatch({
+                type: GET_OP_SUCCESS,
+                payload: {
+                    operations,
+                    cantOperations,
+                    cantPages
+                }
+            });
+            
+
+        }catch(err){
+
+            console.log(err);
+            //logoutUser();
+        }
+
+        clearAlert();
+
+    }
+
+    const modifyOperation = (idOp) => {
+        console.log(`Modificar operacion id: ${idOp}`);
+    }
+
+    const deleteOperation = (idOp)=> {
+        console.log(`Eliminar operacion id: ${idOp}`);
+    }
+
     return(
-        <AppContext.Provider value={{...state, displayAlert, registerUser, loginUser, toggleSidebar, logoutUser, updateUser }}>
+        <AppContext.Provider 
+            value={{
+                ...state, 
+                displayAlert, 
+                registerUser, 
+                loginUser, 
+                toggleSidebar, 
+                logoutUser, 
+                updateUser,
+                addOperation,
+                getOperations,
+                modifyOperation,
+                deleteOperation
+            }}
+        >
             { children }
         </AppContext.Provider>
     )

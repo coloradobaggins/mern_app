@@ -8,7 +8,7 @@ const Error = ()=>{
             <div>
                 <img src={img} alt="not found" />
                 <h3>Error</h3>
-                <p>Text!!</p>
+                <p>...404...</p>
                 <Link to='/'>Go Home</Link>
             </div>
         </Wrapper>
