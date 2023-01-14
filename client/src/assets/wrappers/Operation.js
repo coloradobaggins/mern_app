@@ -68,7 +68,7 @@ const Wrapper = styled.article`
     height: 30px;
   }
   .footerOp {
-    margin-top: 1rem;
+    padding: 1rem 1.5rem;
   }
   .edit-btn,
   .delete-btn {

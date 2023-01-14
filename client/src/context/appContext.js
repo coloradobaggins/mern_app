@@ -45,7 +45,7 @@ const initialState = {
     operations: [],                             //Operaciones totaales del user
     totalOperations: 0,                          //Cant operaciones
     opPages: 1,                                 //Paginas a mostrar
-    cantPages: 1                                     //Pagina a mostrar por default
+    cantPages: 1                                 //Pagina a mostrar por default
 }
 
 const AppContext = React.createContext();

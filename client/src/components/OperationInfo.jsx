@@ -1,6 +1,11 @@
-const OperationInfo = ()=>{ 
+import Wrapper from '../assets/wrappers/OperationInfo';
+
+const OperationInfo = ({icon, text})=>{ 
     return(
-        <h4>Info de operacion!</h4>
+        <Wrapper>
+            <span className='icon'>{icon}</span>
+            <span className='text'>{text}</span>
+        </Wrapper>
     )
 }
 

@@ -9,7 +9,7 @@ const OperationsContainer = ()=> {
 
     useEffect(()=>{
 
-        getOperations()
+        getOperations();
 
     }, []);
 
@@ -28,6 +28,7 @@ const OperationsContainer = ()=> {
                     operations.map((op)=>{
                         return <Operation 
                                     key={op._id} 
+                                    id={op._id}
                                     shipName={op.ship}
                                     client={op.client}
                                     products={op.products}
