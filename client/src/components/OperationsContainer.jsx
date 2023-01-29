@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useAppContext } from '../context/appContext';
+import Loading from './Loading';
 import Operation from './Operation';
 import Wrapper from '../assets/wrappers/OperationsContainer';
 
@@ -12,6 +13,11 @@ const OperationsContainer = ()=> {
         getOperations();
 
     }, []);
+
+    if(isLoading){
+        //alert("BUSCANDO OPERACIONES");
+        return <Loading center/>
+    }
 
     if(operations.length === 0){
         return <Wrapper>
