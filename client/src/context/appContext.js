@@ -20,7 +20,8 @@ import {
         CREATE_OP_ERROR,
         GET_OP_BEGIN,
         GET_OP_SUCCESS,
-        GET_OP_ERROR
+        GET_OP_ERROR,
+        SET_EDIT_OP
     } from './actions';
 
 
@@ -310,8 +311,22 @@ const AppProvider = ({ children }) => {
 
     }
 
-    const modifyOperation = (idOp) => {
-        console.log(`Modificar operacion id: ${idOp}`);
+    const setEditOperation = (idOp) => {
+        //console.log(`Modificar operacion id: ${idOp}`);
+
+        dispatch({
+            type: SET_EDIT_OP,
+            payload: {
+                idOp
+            }
+        })
+
+    }
+
+    // (Todo los valores estan en el state!)
+    const editOperation = (id) => {
+        console.log(`request to edit job!!`);
+        alert(`Request to edit job!!!`);
     }
 
     const deleteOperation = (idOp)=> {
@@ -330,7 +345,8 @@ const AppProvider = ({ children }) => {
                 updateUser,
                 addOperation,
                 getOperations,
-                modifyOperation,
+                setEditOperation,
+                editOperation,
                 deleteOperation
             }}
         >

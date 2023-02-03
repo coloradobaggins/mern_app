@@ -59,6 +59,10 @@ const Wrapper = styled.article`
     }
   }
 
+  .pending{
+    background: #fcefc7;
+    color: #e9b949;
+  }
   .status {
     border-radius: var(--borderRadius);
     text-transform: capitalize;

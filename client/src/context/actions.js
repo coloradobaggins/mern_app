@@ -24,3 +24,5 @@ export const CREATE_OP_ERROR = 'CREATE_OP_ERROR';
 export const GET_OP_BEGIN = 'GET_OP_BEGIN';
 export const GET_OP_SUCCESS = 'GET_OP_SUCCESS';
 export const GET_OP_ERROR = 'GET_OP_ERROR';
+
+export const SET_EDIT_OP = 'SET_EDIT_OP';

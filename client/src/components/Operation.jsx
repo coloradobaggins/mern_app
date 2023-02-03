@@ -7,7 +7,7 @@ import OperationInfo from './OperationInfo';
 
 const Operation = ({id, shipName, client, products, type, operationLocation, createdAt})=> {
     
-    const {modifyOperation, deleteOperation} = useAppContext();
+    const {setEditOperation, deleteOperation} = useAppContext();
 
     let date = moment(createdAt);
     date = date.format('DD-MM-YYYY');
@@ -22,18 +22,26 @@ const Operation = ({id, shipName, client, products, type, operationLocation, cre
                 </div>
             </header>
             <div className='content'>
+                <div className='content-center'>
+                    <OperationInfo icon={<FaLocationArrow />} text={operationLocation} />
+                    <OperationInfo icon={<FaCalendarAlt />} text={date} />
+                    <OperationInfo icon={<FaBriefcase />} text={type} />
+                    <div className={`status pending`}>Pendiente</div>
+                </div>
                 <ul>
                     <li>Tipo de operacion: <span>{type}</span></li>
                     <li>Lugar: {operationLocation}</li>
                     <li>Productos: {products}</li>
                 </ul>
-                
             </div>
             <div className='footerOp'>
-                <button type='button' className='btn timelog-btn'>TIMELOG</button>
-                <button type='buttton' className='btn edit-btn' onClick={()=> modifyOperation(id)}>Editar</button>
-
-                <Link to='/add-operation' className='btn edir-btn' onClick={()=> modifyOperation(id)}>Editar</Link>
+                <Link 
+                    to='/add-operation'
+                    className='btn edit-btn'
+                    onClick={()=> setEditOperation(id)}
+                >
+                    Editar
+                </Link>
                 <button type='buttton' className='btn delete-btn' onClick={()=> deleteOperation(id)}>Eliminar</button>
                 <p>Creado: {date}</p>
             </div>

@@ -5,13 +5,28 @@ import Wrapper from "../../assets/wrappers/DashboardFormPage";
 
 const AddOperation = ()=>{
 
-    const { isLoading, showAlert, displayAlert, isEditing, operationLocation, typeOpOptions, addOperation } = useAppContext();
+    const { 
+        isLoading, 
+        showAlert, 
+        displayAlert, 
+        isEditing, 
+        operationLocation, 
+        typeOpOptions, 
+        addOperation,
+        /*client, 
+        ship, 
+        products, 
+        type,*/
+        editOperation
+    } = useAppContext();
 
+    
     const [client, setClient] = useState('');
     const [ship, setShip] = useState('');
     const [operationType, setOperationType] = useState('');
     const [operationLocationSelect, setOperationLocationSelect] =useState(operationLocation);
     const [products, setProducts] = useState([]);
+    
 
 
     const clearForm = (e)=> {
@@ -22,9 +37,11 @@ const AddOperation = ()=>{
 
     const clear = ()=>{
 
+        
         setClient('');
         setShip('');
         setProducts([]);
+    
         
 
         console.log(`Clear de form!`);
@@ -39,6 +56,11 @@ const AddOperation = ()=>{
             
             displayAlert();
 
+        }
+
+        if(isEditing){
+            editOperation();
+            return
         }
 
         addOperation({client, ship, products, operationLocationSelect, operationType});

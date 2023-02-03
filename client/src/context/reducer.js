@@ -18,7 +18,8 @@ import {
             CREATE_OP_ERROR,
             GET_OP_BEGIN,
             GET_OP_SUCCESS,
-            GET_OP_ERROR
+            GET_OP_ERROR,
+            SET_EDIT_OP
         } from './actions';
 
 const reducer = (state, action)=>{
@@ -110,7 +111,7 @@ const reducer = (state, action)=>{
         }
     }
 
-    if(action.type === LOGOUT_USER){
+    if (action.type === LOGOUT_USER) {
         return{
             ...initialState,
             user: null,
@@ -120,14 +121,14 @@ const reducer = (state, action)=>{
         }
     }
 
-    if(action.type === UPDATE_USER_BEGIN){
+    if (action.type === UPDATE_USER_BEGIN) {
         return{
             ...state,
             isLoading: true
         }
     }
 
-    if(action.type === UPDATE_USER_SUCCESS){
+    if (action.type === UPDATE_USER_SUCCESS) {
         return {
             ...state,
             isLoading: false,
@@ -141,7 +142,7 @@ const reducer = (state, action)=>{
         }
     }
 
-    if(action.type === UPDATE_USER_ERROR){
+    if (action.type === UPDATE_USER_ERROR) {
         return {
             ...state,
             isLoading: false,
@@ -151,14 +152,14 @@ const reducer = (state, action)=>{
         }
     }
 
-    if(action.type === CREATE_OP_BEGIN){
+    if (action.type === CREATE_OP_BEGIN) {
         return {
             ...state,
             isLoading: true
         }
     }
 
-    if(action.type === CREATE_OP_SUCCESS){
+    if (action.type === CREATE_OP_SUCCESS) {
         return {
             ...state,
             isLoading: false,
@@ -168,7 +169,7 @@ const reducer = (state, action)=>{
         }
     }
 
-    if(action.type === CREATE_OP_ERROR){
+    if (action.type === CREATE_OP_ERROR) {
         return {
             ...state,
             isLoading: false,
@@ -178,17 +179,17 @@ const reducer = (state, action)=>{
         }
     }
 
-    if(action.type === GET_OP_BEGIN ){
+    if (action.type === GET_OP_BEGIN ) {
         return {
             ...state,
             isLoading: true
         }
     }
 
-    if(action.type === GET_OP_SUCCESS){
+    if (action.type === GET_OP_SUCCESS) {
 
-        //console.log(`reducer: payload get op:`)
-        //console.log(action.payload)
+        // console.log(`reducer: payload get op:`)
+        // console.log(action.payload)
 
         return {
             ...state,
@@ -196,6 +197,23 @@ const reducer = (state, action)=>{
             operations: action.payload.operations,
             totalOperations: action.payload.cantOperations,
             cantPages: action.payload.cantPages
+        }
+    }
+
+    if (action.type === SET_EDIT_OP) {
+        // Buscar el array de operaciones en el state:
+        const operation = state.operations.find(o => o._id === action.payload.idOp);
+        const { _id, client, ship, products, operationLocation, type } = operation;
+        //update the state:
+        return {
+            ...state,
+            isEditing: true,
+            opEditingId: _id,
+            client, 
+            ship, 
+            products, 
+            operationLocation, 
+            type
         }
     }
 
