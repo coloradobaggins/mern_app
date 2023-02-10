@@ -13,21 +13,22 @@ const AddOperation = ()=>{
         operationLocation, 
         typeOpOptions, 
         addOperation,
-        /*client, 
+        client, 
         ship, 
         products, 
-        type,*/
-        editOperation
+        type,
+        editOperation,
+        handleChange
     } = useAppContext();
 
     
-    const [client, setClient] = useState('');
-    const [ship, setShip] = useState('');
-    const [operationType, setOperationType] = useState('');
-    const [operationLocationSelect, setOperationLocationSelect] =useState(operationLocation);
-    const [products, setProducts] = useState([]);
+    // const [client, setClient] = useState('');
+    // const [ship, setShip] = useState('');
+    // const [operationType, setOperationType] = useState('');
+    // const [operationLocationSelect, setOperationLocationSelect] =useState(operationLocation);
+    // const [products, setProducts] = useState([]);
     
-
+    
 
     const clearForm = (e)=> {
         e.preventDefault();
@@ -38,9 +39,9 @@ const AddOperation = ()=>{
     const clear = ()=>{
 
         
-        setClient('');
-        setShip('');
-        setProducts([]);
+        // setClient('');
+        // setShip('');
+        // setProducts([]);
     
         
 
@@ -63,13 +64,20 @@ const AddOperation = ()=>{
             return
         }
 
-        addOperation({client, ship, products, operationLocationSelect, operationType});
+        addOperation({client, ship, products, operationLocation, type});
 
         console.log(`Add operation!`);
 
         clear();
     }
 
+    const handleAddOperationChange = (e)=>{
+        const name = e.target.name;
+        const value = e.target.value;
+        console.log(`${name}:${value}`);
+
+        handleChange({name, value});
+    }
 
     return(
         <Wrapper>
@@ -85,7 +93,8 @@ const AddOperation = ()=>{
                         type='text'
                         name='client'
                         value={client}
-                        handleChange={(e)=> setClient(e.target.value)}
+                        //handleChange={(e)=> setClient(e.target.value)}
+                        handleChange={ handleAddOperationChange }
                     />
 
                     <FormRow 
@@ -93,7 +102,8 @@ const AddOperation = ()=>{
                         type='text'
                         name='ship'
                         value={ship}
-                        handleChange={(e)=> setShip(e.target.value)}
+                        //handleChange={(e)=> setShip(e.target.value)}
+                        handleChange={ handleAddOperationChange }
                     />
 
                     <FormRow 
@@ -101,41 +111,49 @@ const AddOperation = ()=>{
                         type='text'
                         name='products'
                         value={products}
-                        handleChange={(e)=> setProducts(e.target.value)}
+                        //handleChange={(e)=> setProducts(e.target.value)}
+                        handleChange={ handleAddOperationChange }
                     />
 
                     <FormRow 
                         labelText='Lugar operacion'
                         type='text'
                         name='operationLocation'
-                        value={operationLocationSelect}
-                        handleChange={(e)=>{ 
-                           
-                            setOperationLocationSelect(e.target.value);
-
-                        }}
+                        value={operationLocation}
+                        //handleChange={(e)=>{ setOperationLocationSelect(e.target.value); }}
+                        handleChange={ handleAddOperationChange }
                     />
                     
                     <FormRowSelect 
                         labelText='Tipo' 
                         name='typeOp'
-                        handleChange={(e)=> {
+                        /*handleChange={(e)=> {
 
                             setOperationType(e.target.value);
 
                             console.log(`Operatin selected: `);
                             console.log(e.target.value);
 
-                        }}
+                        }}*/
+                        handleChange={ handleAddOperationChange }
                         list={typeOpOptions}
                     />
-                    
                     <div className='btn-container'>
-                    <button className='btn block' type='submit' disabled={isLoading}>Agregar</button>
-                    <button className='btn clear-btn' type='button' onClick={clearForm}>Limpiar</button>
+                        <button
+                            className='btn block' 
+                            type='submit' 
+                            disabled={isLoading}
+                        >
+                            Agregar
+                        </button>
+                        <button 
+                            className='btn clear-btn' 
+                            type='button' 
+                            onClick={clearForm}
+                        >
+                            Limpiar
+                        </button>
                     </div>
-
-                    
                 </div>
                 
             </form>

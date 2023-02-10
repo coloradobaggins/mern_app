@@ -13,6 +13,7 @@ import {
             UPDATE_USER_BEGIN,
             UPDATE_USER_SUCCESS,
             UPDATE_USER_ERROR,
+            HANDLE_CHANGE,
             CREATE_OP_BEGIN,
             CREATE_OP_SUCCESS,
             CREATE_OP_ERROR,
@@ -149,6 +150,14 @@ const reducer = (state, action)=>{
             showAlert: true,
             alertType: 'danger',
             alertText: action.payload.msg
+        }
+    }
+
+    if (action.type === HANDLE_CHANGE) {
+        return {
+            ...state,
+            [action.payload.name]: action.payload.value    //Access dynamically property name and value
+
         }
     }
 

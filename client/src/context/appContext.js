@@ -15,6 +15,7 @@ import {
         UPDATE_USER_BEGIN,
         UPDATE_USER_SUCCESS,
         UPDATE_USER_ERROR,
+        HANDLE_CHANGE,
         CREATE_OP_BEGIN,
         CREATE_OP_SUCCESS,
         CREATE_OP_ERROR,
@@ -23,6 +24,11 @@ import {
         GET_OP_ERROR,
         SET_EDIT_OP
     } from './actions';
+
+
+/**
+ * TODO:: CLEAR VALUES ! 
+ */
 
 
 const user = localStorage.getItem('user');
@@ -236,6 +242,11 @@ const AppProvider = ({ children }) => {
 
     }
 
+    const handleChange = ({name, value})=>{
+        dispatch({type:HANDLE_CHANGE, payload:{name, value} });
+
+    }
+
     const addOperation = async(opData) =>{
 
         console.log(`opData: `);
@@ -343,6 +354,7 @@ const AppProvider = ({ children }) => {
                 toggleSidebar, 
                 logoutUser, 
                 updateUser,
+                handleChange,
                 addOperation,
                 getOperations,
                 setEditOperation,
