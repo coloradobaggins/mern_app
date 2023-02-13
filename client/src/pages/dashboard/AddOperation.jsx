@@ -18,7 +18,8 @@ const AddOperation = ()=>{
         products, 
         type,
         editOperation,
-        handleChange
+        handleChange,
+        clearFormValues
     } = useAppContext();
 
     
@@ -33,21 +34,9 @@ const AddOperation = ()=>{
     const clearForm = (e)=> {
         e.preventDefault();
         
-        clear();
+        clearFormValues();
     }
 
-    const clear = ()=>{
-
-        
-        // setClient('');
-        // setShip('');
-        // setProducts([]);
-    
-        
-
-        console.log(`Clear de form!`);
-
-    }
 
     //AddOperation
     const submitOperation = (e)=>{
@@ -68,7 +57,7 @@ const AddOperation = ()=>{
 
         console.log(`Add operation!`);
 
-        clear();
+     //   clear();
     }
 
     const handleAddOperationChange = (e)=>{
@@ -140,14 +129,14 @@ const AddOperation = ()=>{
                     />
                     <div className='btn-container'>
                         <button
-                            className='btn block' 
+                            className='btn btn-block' 
                             type='submit' 
                             disabled={isLoading}
                         >
                             Agregar
                         </button>
                         <button 
-                            className='btn clear-btn' 
+                            className='btn btn-block clear-btn' 
                             type='button' 
                             onClick={clearForm}
                         >

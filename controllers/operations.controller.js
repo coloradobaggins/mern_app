@@ -1,5 +1,5 @@
 import Operation from '../models/Operation.js';
-import { BadRequestError, UnauthenticatedError } from '../errors/index.js';
+import { BadRequestError, UnauthenticatedError, NotFoundError } from '../errors/index.js';
 
 const createOp = async(req, res)=>{
 
@@ -40,14 +40,30 @@ const getAllOp = async(req, res)=>{
 }
 
 const deleteOp = async(req, res)=>{
-    const { id } = req.params;
+    const { id: idOp } = req.params;
     res.send(`Delete op id: ${id}`);
 }
 
 
 const updateOp = async(req, res)=>{
-    const { id } = req.params;
-    res.send(`Update op id: ${id}`);
+    const { id: idOp } = req.params;
+    const { client, ship, product } = req.body;
+
+    if(!client || !ship || !product)
+        throw new BadRequestError('Faltan campos obligatorios para actualizar operacion');
+
+    const operation = await Operation.findOne({_id: id});
+
+    if(!operation){
+        throw new NotFoundError(`No se encontro operacion con este id: ${idOp}`);
+    }
+
+    const operationUpdate = await Operation.findOneAndUpdate({_id: id}, req.body, {
+        new:true, //return new updated values
+        runValidators: true //runs validator on passed values
+    })
+
+    res.status(200).json({operationUpdate});
 }
 
 const showStats = async(req, res)=>{

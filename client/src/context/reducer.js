@@ -20,7 +20,8 @@ import {
             GET_OP_BEGIN,
             GET_OP_SUCCESS,
             GET_OP_ERROR,
-            SET_EDIT_OP
+            SET_EDIT_OP,
+            CLEAR_FORM_VALUES
         } from './actions';
 
 const reducer = (state, action)=>{
@@ -223,6 +224,22 @@ const reducer = (state, action)=>{
             products, 
             operationLocation, 
             type
+        }
+    }
+
+    if (action.type === CLEAR_FORM_VALUES) {
+
+        const initialState = {
+            client: '',
+            ship: '',
+            isEditing: false,
+            idOperationEdit: '',
+            operationLocation: state.userLocation || ''
+        }
+
+        return {
+            ...state,
+            ...initialState
         }
     }
 

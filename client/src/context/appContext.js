@@ -22,7 +22,8 @@ import {
         GET_OP_BEGIN,
         GET_OP_SUCCESS,
         GET_OP_ERROR,
-        SET_EDIT_OP
+        SET_EDIT_OP,
+        CLEAR_FORM_VALUES
     } from './actions';
 
 
@@ -344,6 +345,12 @@ const AppProvider = ({ children }) => {
         console.log(`Eliminar operacion id: ${idOp}`);
     }
 
+    const clearFormValues = () => {
+        dispatch({
+            type: CLEAR_FORM_VALUES
+        })
+    }
+
     return(
         <AppContext.Provider 
             value={{
@@ -359,7 +366,8 @@ const AppProvider = ({ children }) => {
                 getOperations,
                 setEditOperation,
                 editOperation,
-                deleteOperation
+                deleteOperation,
+                clearFormValues
             }}
         >
             { children }
