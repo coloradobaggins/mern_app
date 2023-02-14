@@ -23,7 +23,8 @@ import {
         GET_OP_SUCCESS,
         GET_OP_ERROR,
         SET_EDIT_OP,
-        CLEAR_FORM_VALUES
+        CLEAR_FORM_VALUES,
+        DELETE_OP_BEGIN
     } from './actions';
 
 
@@ -341,8 +342,27 @@ const AppProvider = ({ children }) => {
         alert(`Request to edit job!!!`);
     }
 
-    const deleteOperation = (idOp)=> {
+    const deleteOperation = async(idOp)=> {
         console.log(`Eliminar operacion id: ${idOp}`);
+
+        dispatch({ type: DELETE_OP_BEGIN });
+
+        try{
+
+            const rawDelete = await axios.delete(`/api/v1/operations/${idOp}`,{
+                headers: {
+                    Authorization: `Bearer ${state.token}`
+                }
+            });
+
+            console.log(rawDelete);
+
+            getOperations(); //Volvemos a traer todas las operaciones luego de borrar una.
+
+        }catch(err){
+            console.log(err);
+        }
+
     }
 
     const clearFormValues = () => {

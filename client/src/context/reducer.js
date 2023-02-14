@@ -21,7 +21,8 @@ import {
             GET_OP_SUCCESS,
             GET_OP_ERROR,
             SET_EDIT_OP,
-            CLEAR_FORM_VALUES
+            CLEAR_FORM_VALUES,
+            DELETE_OP_BEGIN
         } from './actions';
 
 const reducer = (state, action)=>{
@@ -240,6 +241,13 @@ const reducer = (state, action)=>{
         return {
             ...state,
             ...initialState
+        }
+    }
+
+    if(action.type === DELETE_OP_BEGIN){
+        return {
+            ...state,
+            isLoading: true
         }
     }
 
