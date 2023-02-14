@@ -48,22 +48,40 @@ const deleteOp = async(req, res)=>{
 const updateOp = async(req, res)=>{
     const { id: idOp } = req.params;
     const { client, ship, product } = req.body;
+    let response = {};
 
-    if(!client || !ship || !product)
+    console.log(`------> PATCH UPDATE OPERATION ${idOp} <------`);
+
+    
+    if(!client || !ship)
         throw new BadRequestError('Faltan campos obligatorios para actualizar operacion');
 
-    const operation = await Operation.findOne({_id: id});
+    
 
-    if(!operation){
-        throw new NotFoundError(`No se encontro operacion con este id: ${idOp}`);
+    try{
+
+        const operation = await Operation.findOne({_id: idOp});
+
+        if(!operation){
+            throw new NotFoundError(`No se encontro operacion con este id: ${idOp}`);
+        }
+
+        const operationUpdate = await Operation.findOneAndUpdate({_id: idOp}, req.body, {
+            new:true, //return new updated values
+            runValidators: true //runs validator on passed values
+        });
+
+        response.stastus = 'success';
+        response.updated = operationUpdate;
+
+    }catch(err){
+        console.log('------> Error al actualizar: ', err);
+        response.status = 'Error'
+        response.error = err?.message;
     }
+    
 
-    const operationUpdate = await Operation.findOneAndUpdate({_id: id}, req.body, {
-        new:true, //return new updated values
-        runValidators: true //runs validator on passed values
-    })
-
-    res.status(200).json({operationUpdate});
+    res.status(200).json(response);
 }
 
 const showStats = async(req, res)=>{

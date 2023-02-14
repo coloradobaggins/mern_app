@@ -30,4 +30,3 @@ export const GET_OP_ERROR = 'GET_OP_ERROR';
 export const SET_EDIT_OP = 'SET_EDIT_OP';
 
 export const CLEAR_FORM_VALUES = 'CLEAR_FORM_VALUES';
-
