@@ -1,5 +1,6 @@
 import Operation from '../models/Operation.js';
 import { BadRequestError, UnauthenticatedError, NotFoundError } from '../errors/index.js';
+import checkPermission from '../utils/checkPermissions.js';
 
 const createOp = async(req, res)=>{
 
@@ -41,7 +42,29 @@ const getAllOp = async(req, res)=>{
 
 const deleteOp = async(req, res)=>{
     const { id: idOp } = req.params;
-    res.send(`Delete op id: ${id}`);
+    let response = {};
+
+    try{
+
+        const operation = await Operation.findOne({_id: idOp});
+        if(!operation){
+            throw new NotFoundError(`Operacion no encontrada`);
+        }
+
+        checkPermission(req.user, operation.createdBy); // Check if user can delete
+
+        const deleteOp = await operation.remove();
+
+        response.status = 'success';
+        response.deleted = 'deleted';
+
+    }catch(err){
+        console.log(err);
+        response.status = 'Error';
+        response.error = err?.message;
+    }
+    
+    res.status(200).json(response);
 }
 
 
@@ -56,15 +79,22 @@ const updateOp = async(req, res)=>{
     if(!client || !ship)
         throw new BadRequestError('Faltan campos obligatorios para actualizar operacion');
 
-    
 
     try{
-
         const operation = await Operation.findOne({_id: idOp});
 
         if(!operation){
             throw new NotFoundError(`No se encontro operacion con este id: ${idOp}`);
         }
+
+        /*
+        console.log(req.user.userId);
+        console.log(typeof req.user.userId);
+        console.log(operation.createdBy);
+        console.log(typeof operation.createdAt);
+        */
+
+        checkPermission(req.user, operation.createdBy); //Check if user can update...
 
         const operationUpdate = await Operation.findOneAndUpdate({_id: idOp}, req.body, {
             new:true, //return new updated values
