@@ -127,6 +127,7 @@ const AddOperation = ()=>{
                         handleChange={ handleAddOperationChange }
                         list={typeOpOptions}
                     />
+
                     <div className='btn-container'>
                         <button
                             className='btn btn-block' 

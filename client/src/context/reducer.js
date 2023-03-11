@@ -22,7 +22,10 @@ import {
             GET_OP_ERROR,
             SET_EDIT_OP,
             CLEAR_FORM_VALUES,
-            DELETE_OP_BEGIN
+            DELETE_OP_BEGIN,
+            UPDATE_OP_BEGIN,
+            UPDATE_OP_SUCCESS,
+            UPDATE_OP_ERROR
         } from './actions';
 
 const reducer = (state, action)=>{
@@ -250,6 +253,33 @@ const reducer = (state, action)=>{
             isLoading: true
         }
     }
+
+   if(action.type === UPDATE_OP_BEGIN){
+    return {
+            ...state,
+            isLoading: true
+        }
+   }
+
+   if(action.type === UPDATE_OP_SUCCESS){
+        return {
+            ...state,
+            isLoading: false,
+            showAlert: true,
+            alertType: 'success',
+            alertText: 'Operacion actualizada!'
+        }
+   }
+
+   if(action.type === UPDATE_OP_ERROR){
+        return {
+            ...state,
+            isLoading: false,
+            showAlert: true,
+            alertType: 'danger',
+            alertText: action.payload.msg
+        }
+   }
 
     throw new Error(`No existe el tipo de accion: ${action}`);
 }

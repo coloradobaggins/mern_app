@@ -24,7 +24,10 @@ import {
         GET_OP_ERROR,
         SET_EDIT_OP,
         CLEAR_FORM_VALUES,
-        DELETE_OP_BEGIN
+        DELETE_OP_BEGIN,
+        UPDATE_OP_BEGIN,
+        UPDATE_OP_SUCCESS,
+        UPDATE_OP_ERROR
     } from './actions';
 
 
@@ -337,9 +340,41 @@ const AppProvider = ({ children }) => {
     }
 
     // (Todo los valores estan en el state!)
-    const editOperation = (id) => {
+    const editOperation = async (idOp) => { //Este id tambien existe en el state!
         console.log(`request to edit job!!`);
-        alert(`Request to edit job!!!`);
+        
+        dispatch({ type: UPDATE_OP_BEGIN });
+
+        const { ship, client } = state;
+
+        let body = {
+            ship,
+            client
+        }
+
+        try{
+
+            const rawUpdateRes = await axios.patch(`/api/v1/operations/${idOp}`, body, {
+                headers: {
+                    Authorization: `Bearer ${state.token}`
+                }
+            });
+
+            dispatch({ type: UPDATE_OP_SUCCESS });
+            dispatch({ type: CLEAR_FORM_VALUES });
+
+            //TODO:: CONTINUAR EDIT!, 155
+
+        }catch(err){
+            console.log(err);
+            dispatch({ 
+                type: UPDATE_OP_ERROR,
+                payload:{
+                    msg: err.response.data.msg
+                }
+            });
+        }
+
     }
 
     const deleteOperation = async(idOp)=> {
