@@ -5,7 +5,7 @@ import Wrapper from '../assets/wrappers/Operation';
 import { FaLocationArrow, FaBriefcase, FaCalendarAlt } from 'react-icons/fa';
 import OperationInfo from './OperationInfo';
 
-const Operation = ({id, shipName, client, products, type, operationLocation, createdAt})=> {
+const Operation = ({id, shipName, client, products, type, operationLocation, shipStatusOptions, createdAt})=> {
     
     const {setEditOperation, deleteOperation} = useAppContext();
 
@@ -26,7 +26,7 @@ const Operation = ({id, shipName, client, products, type, operationLocation, cre
                     <OperationInfo icon={<FaLocationArrow />} text={operationLocation} />
                     <OperationInfo icon={<FaCalendarAlt />} text={date} />
                     <OperationInfo icon={<FaBriefcase />} text={type} />
-                    <div className={`status pending`}>Pendiente</div>
+                    <div className={`status pending`}>{shipStatusOptions}</div>
                 </div>
                 <ul>
                     <li>Tipo de operacion: <span>{type}</span></li>

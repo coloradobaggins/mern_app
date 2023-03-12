@@ -36,5 +36,3 @@ export const DELETE_OP_BEGIN = 'DELETE_OP_BEGIN';
 export const UPDATE_OP_BEGIN = 'UPDATE_OP_BEGIN';
 export const UPDATE_OP_SUCCESS = 'UPDATE_OP_SUCCESS';
 export const UPDATE_OP_ERROR = 'UPDATE_OP_ERROR';
-
-//TODO:155 edit job front

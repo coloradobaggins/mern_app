@@ -12,6 +12,7 @@ const AddOperation = ()=>{
         isEditing, 
         operationLocation, 
         typeOpOptions, 
+        shipStatusOptions,
         addOperation,
         client, 
         ship, 
@@ -42,7 +43,7 @@ const AddOperation = ()=>{
     const submitOperation = (e)=>{
         e.preventDefault();
 
-        if(!client || ! ship || !operationLocation || !typeOpOptions){
+        if(!client || ! ship || !operationLocation || !typeOpOptions || !shipStatusOptions){
             
             displayAlert();
 
@@ -53,7 +54,7 @@ const AddOperation = ()=>{
             return
         }
 
-        addOperation({client, ship, products, operationLocation, type});
+        addOperation({client, ship, products, operationLocation, type, shipStatusOptions});
 
         console.log(`Add operation!`);
 
@@ -126,6 +127,13 @@ const AddOperation = ()=>{
                         }}*/
                         handleChange={ handleAddOperationChange }
                         list={typeOpOptions}
+                    />
+
+                    <FormRowSelect 
+                        labelText='Estado Buque'
+                        name='shipStatus'
+                        handleChange={handleAddOperationChange}
+                        list={shipStatusOptions}
                     />
 
                     <div className='btn-container'>

@@ -54,10 +54,11 @@ const initialState = {
     idOperationEdit: '',
     operationLocation: userLocation || '',
     typeOpOptions: ['carga', 'descarga'],
-    operations: [],                             //Operaciones totaales del user
-    totalOperations: 0,                          //Cant operaciones
-    opPages: 1,                                 //Paginas a mostrar
-    cantPages: 1                                 //Pagina a mostrar por default
+    shipStatusOptions: ['Underway','Arrived', 'Departed'],
+    operations: [],                                 //Operaciones totaales del user
+    totalOperations: 0,                             //Cant operaciones
+    opPages: 1,                                     //Paginas a mostrar
+    cantPages: 1                                    //Pagina a mostrar por default
 }
 
 const AppContext = React.createContext();
@@ -248,6 +249,9 @@ const AppProvider = ({ children }) => {
     }
 
     const handleChange = ({name, value})=>{
+
+        console.log(`Desde appContext: name: ${name} | value: ${value}`);
+
         dispatch({type:HANDLE_CHANGE, payload:{name, value} });
 
     }
@@ -328,7 +332,7 @@ const AppProvider = ({ children }) => {
     }
 
     const setEditOperation = (idOp) => {
-        //console.log(`Modificar operacion id: ${idOp}`);
+        console.log(`Modificar operacion id: ${idOp}`);
 
         dispatch({
             type: SET_EDIT_OP,
@@ -339,18 +343,27 @@ const AppProvider = ({ children }) => {
 
     }
 
+    //TODO:: VER PORQUE NO ACTUALIZA, PORQUE NO LLEGA EL ID AL CONFIRMAR EDITAR.
+
+
+
     // (Todo los valores estan en el state!)
     const editOperation = async (idOp) => { //Este id tambien existe en el state!
         console.log(`request to edit job!!`);
         
         dispatch({ type: UPDATE_OP_BEGIN });
 
-        const { ship, client } = state;
+        const { ship, client, shipStatusOptions } = state;
 
         let body = {
             ship,
-            client
+            client,
+            shipStatusOptions
         }
+
+        console.log(`EDIT OP -> id: ${idOp} <--`)
+        console.log(`Body Update: `);
+        console.log(body);
 
         try{
 

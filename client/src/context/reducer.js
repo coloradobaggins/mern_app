@@ -159,11 +159,14 @@ const reducer = (state, action)=>{
     }
 
     if (action.type === HANDLE_CHANGE) {
+        console.log(action)
+        
         return {
             ...state,
             [action.payload.name]: action.payload.value    //Access dynamically property name and value
 
         }
+        
     }
 
     if (action.type === CREATE_OP_BEGIN) {

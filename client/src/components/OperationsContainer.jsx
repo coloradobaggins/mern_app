@@ -40,6 +40,7 @@ const OperationsContainer = ()=> {
                                     products={op.products}
                                     type={op.type}
                                     operationLocation={op.operationLocation}
+                                    shipStatusOptions={op.shipStatusOptions}
                                     createdAt={op.createdAt} 
                                 />
                     })

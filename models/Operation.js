@@ -26,6 +26,12 @@ const OperationSchema = new mongoose.Schema({
         required: true,
         default: 'ciudad'
     },
+    shipStatusOptions: {
+        type: String,
+        enum: ['Underway','Arrived', 'Departed'],
+        required: true,
+        default: 'Underway'
+    },
     createdBy: {
         type: mongoose.Types.ObjectId,
         ref: 'User',
