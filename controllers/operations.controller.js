@@ -4,13 +4,13 @@ import checkPermission from '../utils/checkPermissions.js';
 
 const createOp = async(req, res)=>{
 
-    const {client, ship, products, operationType } = req.body;
+    const {client, ship, products, operationType,  } = req.body;
     
     if(!client || !ship || !products)
         throw new BadRequestError('Faltan campos obligatorios para dar de alta una operacion');
 
     req.body.createdBy = req.user.userId;           // From authenticate middleware
-    req.body.type = operationType;
+    //req.body.type = operationType;
 
     console.log(`CreateOp: req.body: `);
     console.log(req.body);

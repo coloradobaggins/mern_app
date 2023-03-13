@@ -250,22 +250,42 @@ const AppProvider = ({ children }) => {
 
     const handleChange = ({name, value})=>{
 
+        
         console.log(`Desde appContext: name: ${name} | value: ${value}`);
 
         dispatch({type:HANDLE_CHANGE, payload:{name, value} });
+        
 
     }
 
     const addOperation = async(opData) =>{
-
-        console.log(`opData: `);
+        console.log(`-------------->>> opData <<<<--------------`)
         console.log(opData);
+
+        console.log(`-------------->>> state <<<<--------------`)
+        console.log(state);
 
         dispatch({ type: CREATE_OP_BEGIN });
 
+        //En el state estan los valores de los desplegables. y de todo
+
+        let { client, ship, products, operationLocation, typeOp, shipStatus } = state;
+
+        let body = {
+            client,
+            ship,
+            products,
+            operationLocation,
+            type: typeOp,
+            shipStatusOptions: shipStatus
+        }
+
+        console.log(`-------------->>> body axios <<<<--------------`)
+        console.log(body);
+
         try{
 
-            const rawData = await axios.post('/api/v1/operations/op', opData, {
+            const rawData = await axios.post('/api/v1/operations/op', body, {
                 headers:{
                     Authorization: `Bearer ${state.token}`,
                 },
