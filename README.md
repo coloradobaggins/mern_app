@@ -40,3 +40,13 @@ npm start
 ```
 
 Setear variables de entorno!
+
+
+Popular db con data mock: 
+
+```
+
+node populate
+
+```
+
