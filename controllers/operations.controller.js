@@ -115,14 +115,38 @@ const updateOp = async(req, res)=>{
     res.status(200).json(response);
 }
 
+/**
+ * Get match operation createdByUser and return count of operationStatusOptions grouped  d
+ * @param {*} req request
+ * @param {*} res response
+ */
 const statsOp = async(req, res)=>{
+
+    console.log(`operations stats`);
     
+    
+
     let opStats = await Operation.aggregate([
-        { $match: { createdBy: mongoose.Types.ObjectId(req.user.userId) }}, //Get all operation created by this user
-        { $group: { _id: '$status', count: { $sum: 1 }}},                   // Group them
+        { $match: { createdBy: mongoose.Types.ObjectId(req.user.userId) }},     //Get all operation created by this user
+        { $group: { _id: '$shipStatusOptions', count: { $sum: 1 }}},            // Group them
     ]);
+
+    //Return obj de stats. Ej: 'Arrived: 30'. (no array format)
+    opStats = opStats.reduce((acc, curr)=>{
+
+        const {_id, count} = curr;
+        acc[_id] = count;
+        return acc
+
+    }, {});
+
+    //Default values if the user no have operations created
+    opStats.Departed = opStats.Departed || 0;
+    opStats.Arrived = opStats.Arrived || 0;
+    opStats.Underway = opStats.Underway || 0;
     
     res.status(200).json({ opStats });
+    
 }
 
 export { createOp, deleteOp, getAllOp, updateOp, statsOp }
