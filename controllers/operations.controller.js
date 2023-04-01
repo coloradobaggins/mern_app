@@ -1,6 +1,7 @@
 import Operation from '../models/Operation.js';
 import { BadRequestError, UnauthenticatedError, NotFoundError } from '../errors/index.js';
 import checkPermission from '../utils/checkPermissions.js';
+import mongoose from 'mongoose';
 
 const createOp = async(req, res)=>{
 
@@ -114,8 +115,14 @@ const updateOp = async(req, res)=>{
     res.status(200).json(response);
 }
 
-const showStats = async(req, res)=>{
-    res.send(`Show ops stats`);
+const statsOp = async(req, res)=>{
+    
+    let opStats = await Operation.aggregate([
+        { $match: { createdBy: mongoose.Types.ObjectId(req.user.userId) }}, //Get all operation created by this user
+        { $group: { _id: '$status', count: { $sum: 1 }}},                   // Group them
+    ]);
+    
+    res.status(200).json({ opStats });
 }
 
-export { createOp, deleteOp, getAllOp, updateOp, showStats }
+export { createOp, deleteOp, getAllOp, updateOp, statsOp }

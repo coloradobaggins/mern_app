@@ -12,6 +12,7 @@ const authenticate = async (req, res, next)=> {
     //Si no tenemos header auth, throw error
 
     if(!authorization || !authorization.startsWith('Bearer')){
+        console.log(`no authorization or no jwt token correctley formed`);
         throw new UnauthenticatedError('Autenticacion invalida');
     }
 
@@ -37,6 +38,7 @@ const authenticate = async (req, res, next)=> {
     }catch(err){
 
         console.log(err);
+        console.log(`no jwt token`);
         throw new UnauthenticatedError('Autenticacion invalida');
 
     }
