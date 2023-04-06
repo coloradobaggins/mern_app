@@ -298,7 +298,7 @@ const reducer = (state, action)=>{
         return {
             ...state,
             isLoading: false,
-            stats: action.payload.stats,
+            statsOp: action.payload.stats,
             monthlyApplications: action.payload.monthlyApplications
         }
    }
