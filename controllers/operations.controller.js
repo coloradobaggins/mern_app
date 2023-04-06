@@ -123,8 +123,6 @@ const updateOp = async(req, res)=>{
 const statsOp = async(req, res)=>{
 
     console.log(`operations stats`);
-    
-    
 
     let opStats = await Operation.aggregate([
         { $match: { createdBy: mongoose.Types.ObjectId(req.user.userId) }},     //Get all operation created by this user

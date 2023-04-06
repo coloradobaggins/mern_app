@@ -25,7 +25,9 @@ import {
             DELETE_OP_BEGIN,
             UPDATE_OP_BEGIN,
             UPDATE_OP_SUCCESS,
-            UPDATE_OP_ERROR
+            UPDATE_OP_ERROR,
+            SHOW_STATS_BEGIN,
+            SHOW_STATS_SUCCESS,
         } from './actions';
 
 const reducer = (state, action)=>{
@@ -281,6 +283,23 @@ const reducer = (state, action)=>{
             showAlert: true,
             alertType: 'danger',
             alertText: action.payload.msg
+        }
+   }
+
+   if(action.type === SHOW_STATS_BEGIN){
+        return {
+            ...state,
+            isLoading: true,
+            showAlert: false,
+        }
+   }
+
+   if(action.type === SHOW_STATS_SUCCESS){
+        return {
+            ...state,
+            isLoading: false,
+            stats: action.payload.stats,
+            monthlyApplications: action.payload.monthlyApplications
         }
    }
 

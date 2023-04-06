@@ -27,7 +27,9 @@ import {
         DELETE_OP_BEGIN,
         UPDATE_OP_BEGIN,
         UPDATE_OP_SUCCESS,
-        UPDATE_OP_ERROR
+        UPDATE_OP_ERROR,
+        SHOW_STATS_BEGIN,
+        SHOW_STATS_SUCCESS
     } from './actions';
 
 
@@ -58,7 +60,9 @@ const initialState = {
     operations: [],                                 //Operaciones totaales del user
     totalOperations: 0,                             //Cant operaciones
     opPages: 1,                                     //Paginas a mostrar
-    cantPages: 1                                    //Pagina a mostrar por default
+    cantPages: 1,                                   //Pagina a mostrar por default
+    statsOp: {},                                    //Operations stats
+    monthlyApplications: [],
 }
 
 const AppContext = React.createContext();
@@ -439,6 +443,38 @@ const AppProvider = ({ children }) => {
         })
     }
 
+    const showStatsOperation = async()=> {
+        console.log(`show operation stats`);
+        
+        dispatch({ type: SHOW_STATS_BEGIN });
+
+        try{
+
+            const rawResponse = await axios.get('/api/v1/operations/stats', {
+                headers: {
+                    Authorization: `Bearer ${state.token}`
+                }
+            });
+
+            dispatch({ 
+                type: SHOW_STATS_SUCCESS,
+                payload: {
+                    stats: rawResponse.data.opStats,
+                    monthlyApplications:rawResponse.data.monthlyApplications
+                }
+             })
+
+            console.log(`stats...:`);
+            console.log(rawResponse.data);
+
+        }catch(err){
+            console.log(`Error getting stats...`);
+            console.log(err);
+            //logoutuser!
+        }
+
+    }
+
     return(
         <AppContext.Provider 
             value={{
@@ -455,7 +491,8 @@ const AppProvider = ({ children }) => {
                 setEditOperation,
                 editOperation,
                 deleteOperation,
-                clearFormValues
+                clearFormValues,
+                showStatsOperation
             }}
         >
             { children }

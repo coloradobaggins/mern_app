@@ -7,6 +7,8 @@ import SidebarSmall from './SidebarSmall';
 import SidebarBig from './SidebarBig';
 import OperationsContainer from './OperationsContainer';
 import FilterOpContainer from './FilterOpContainer';
+import StatsContainer from './StatsContainer';
+import ChartsContainer from './ChartsContainer';
 
 export { 
     Logo, 
@@ -17,5 +19,7 @@ export {
     SidebarSmall, 
     SidebarBig, 
     OperationsContainer, 
-    FilterOpContainer 
+    FilterOpContainer,
+    StatsContainer,
+    ChartsContainer,
 }
