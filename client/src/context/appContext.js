@@ -462,7 +462,7 @@ const AppProvider = ({ children }) => {
                     stats: rawResponse.data.opStats,
                     monthlyApplications:rawResponse.data.monthlyApplications
                 }
-             })
+            })
 
             console.log(`stats...:`);
             console.log(rawResponse.data);

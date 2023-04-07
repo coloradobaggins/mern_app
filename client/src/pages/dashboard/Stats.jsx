@@ -18,7 +18,6 @@ const Stats = ()=>{
         <>
             <h1>Resumen de actividad</h1>
             <StatsContainer />
-            
         </>
     );
 }

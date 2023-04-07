@@ -143,7 +143,43 @@ const statsOp = async(req, res)=>{
     opStats.Arrived = opStats.Arrived || 0;
     opStats.Underway = opStats.Underway || 0;
     
-    res.status(200).json({ opStats });
+    //Monthly operations
+    /*
+        Cantidad de resgistro: x mes and x year
+        Ej:
+        {
+            "_id": {
+                "year": 2023,
+                "month": 2
+            },
+            "count": 48
+        },
+    */
+
+    let monthlyOp = await Operation.aggregate([
+        { $match: { createdBy: mongoose.Types.ObjectId(req.user.userId) }},
+        { 
+            $group: {
+                _id: {
+                    y: {
+                        $year: '$createdAt' //Year operator, takes the year from date
+                    },
+                    m: {
+                        $month: '$createdAt' //Month operator, takes the month from date
+                    }
+                },
+                count: { $sum: 1 }
+            }
+        },
+        {
+            $sort: {'_id.y': -1, '_id.m': -1}   //Sort desc year & month
+        },
+        {
+            $limit: 5   //Month limit
+        }
+    ]);
+
+    res.status(200).json({ opStats, monthlyOp });
     
 }
 
