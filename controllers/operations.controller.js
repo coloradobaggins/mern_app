@@ -2,6 +2,7 @@ import Operation from '../models/Operation.js';
 import { BadRequestError, UnauthenticatedError, NotFoundError } from '../errors/index.js';
 import checkPermission from '../utils/checkPermissions.js';
 import mongoose from 'mongoose';
+import moment from 'moment/moment.js';
 
 const createOp = async(req, res)=>{
 
@@ -179,7 +180,17 @@ const statsOp = async(req, res)=>{
         }
     ]);
 
-    res.status(200).json({ opStats, monthlyOp });
+    const formattedDate = monthlyOp.map((item)=>{
+        //console.log(item);
+        const { _id: { y, m}, count } = item;
+        const d = moment().month(m-1).year(y).format('MMM Y');
+        
+        console.log(d);
+        return { d, count };
+    }).reverse();   // Invierto orden : de Enero (1) a Dic (11)
+    
+
+    res.status(200).json({ opStats, monthlyOp, formattedDate });
     
 }
 
