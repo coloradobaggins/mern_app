@@ -130,16 +130,26 @@ const statsOp = async(req, res)=>{
         { $group: { _id: '$shipStatusOptions', count: { $sum: 1 }}},            // Group them
     ]);
 
-    //Return obj de stats. Ej: 'Arrived: 30'. (no array format)
-    opStats = opStats.reduce((acc, curr)=>{
+    //Return obj de stats. Ej: 'Arrived: 30'. (not array format)
+    let obj = {};
+    opStats.map((el, i)=>{
+        const {_id, count} = el;
+        obj[_id] = count;
+        return obj;
+    });
+    opStats = obj;
 
+    
+    /*
+    opStats = opStats.reduce((acc, curr)=>{
         const {_id, count} = curr;
         acc[_id] = count;
         return acc
-
     }, {});
+    */
 
-    //Default values if the user no have operations created
+    
+    //Default values if the user have not operations created
     opStats.Departed = opStats.Departed || 0;
     opStats.Arrived = opStats.Arrived || 0;
     opStats.Underway = opStats.Underway || 0;
