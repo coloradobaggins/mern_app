@@ -3,6 +3,7 @@ import { BadRequestError, UnauthenticatedError, NotFoundError } from '../errors/
 import checkPermission from '../utils/checkPermissions.js';
 import mongoose from 'mongoose';
 import moment from 'moment/moment.js';
+import { format } from 'morgan';
 
 const createOp = async(req, res)=>{
 
@@ -190,18 +191,26 @@ const statsOp = async(req, res)=>{
         }
     ]);
 
+    /*
     const formattedDate = monthlyOp.map((item)=>{
-        //console.log(item);
         const { _id: { y, m}, count } = item;
         const d = moment().month(m-1).year(y).format('MMM Y');
         
-        console.log(d);
         return { d, count };
     }).reverse();   // Invierto orden : de Enero (1) a Dic (11)
-    
+    */
+
+    //Format monthlyOp Dates and Reverse
+    monthlyOp = monthlyOp.map((item)=>{
+        const { _id: { y, m}, count } = item;
+        const d = moment().month(m-1).year(y).format('MMM Y');
+        
+        return { d, count };
+    }).reverse();   // Invierto orden : de Enero (1) a Dic (11)
+
     console.log(monthlyOp);
 
-    res.status(200).json({ opStats, monthlyOp, formattedDate });
+    res.status(200).json({ opStats, monthlyOp });
     
 }
 
