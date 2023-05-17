@@ -4,10 +4,11 @@ import { StatsContainer, ChartsContainer, Loading } from "../../components";
 
 const Stats = ()=>{
 
-    const { isLoading, showStatsOperation, monthlyApplications } = useAppContext();
+    const { isLoading, showStatsOperation, monthlyOp } = useAppContext();
 
     useEffect(()=>{
         showStatsOperation()
+        console.log(`monthlyOp:`, monthlyOp);
     }, []);
 
     if(isLoading){
@@ -16,8 +17,9 @@ const Stats = ()=>{
 
     return(
         <>
-            <h1>Resumen de actividad</h1>
+            <h1>Estadísticas</h1>
             <StatsContainer />
+            {monthlyOp.length > 0 && <ChartsContainer/>}
         </>
     );
 }

@@ -299,7 +299,7 @@ const reducer = (state, action)=>{
             ...state,
             isLoading: false,
             statsOp: action.payload.stats,
-            monthlyApplications: action.payload.monthlyApplications
+            monthlyOp: action.payload.monthlyOp
         }
    }
 

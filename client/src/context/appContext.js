@@ -62,7 +62,7 @@ const initialState = {
     opPages: 1,                                     //Paginas a mostrar
     cantPages: 1,                                   //Pagina a mostrar por default
     statsOp: {},                                    //Operations stats
-    monthlyApplications: [],
+    monthlyOp: [],
 }
 
 const AppContext = React.createContext();
@@ -456,13 +456,16 @@ const AppProvider = ({ children }) => {
                 }
             });
 
+            const {opStats, monthlyOp} = rawResponse.data;
+
             dispatch({ 
                 type: SHOW_STATS_SUCCESS,
-                payload: {
-                    stats: rawResponse.data.opStats,
-                    monthlyApplications:rawResponse.data.monthlyApplications
+                payload: 
+                {
+                    stats: opStats,
+                    monthlyOp:monthlyOp
                 }
-            })
+            });
 
             console.log(`stats...:`);
             console.log(rawResponse.data);

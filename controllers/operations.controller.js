@@ -199,6 +199,7 @@ const statsOp = async(req, res)=>{
         return { d, count };
     }).reverse();   // Invierto orden : de Enero (1) a Dic (11)
     
+    console.log(monthlyOp);
 
     res.status(200).json({ opStats, monthlyOp, formattedDate });
     
