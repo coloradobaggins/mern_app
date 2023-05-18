@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import { useAppContext } from "../context/appContext";
-import AreaChart from "./AreaChart";
+import TheAreaChart from "./AreaChart";
 import BarraChart from "./BarChart";
 import Wrapper from "../assets/wrappers/ChartsContainer"
 
@@ -15,7 +15,7 @@ const ChartsContainer = ()=>{
                 {areaChart ? 'Grafico Barras' : 'Grafico Area'}
             </button>
             
-            {areaChart ? <AreaChart data={ monthlyOp } /> : <BarraChart data={ monthlyOp }/>}
+            {areaChart ? <TheAreaChart data={ monthlyOp } /> : <BarraChart data={ monthlyOp }/>}
             
         </Wrapper>
     );
