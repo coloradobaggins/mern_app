@@ -28,12 +28,38 @@ const createOp = async(req, res)=>{
 
 //Get Operations by User id created.
 const getAllOp = async(req, res)=>{
-    
+
     const { userId } = req.user;
+    const { status:shipStatus } = req.query;
+    console.log(`query shipStatus: `, shipStatus);
 
     console.log(`GetOperations, userid: ${userId}`);
 
-    const operations = await Operation.find({ createdBy: userId });
+    let searchQueryObject = {
+        createdBy: userId
+    }
+
+    if(shipStatus !== 'all'){
+        searchQueryObject.shipStatusOptions = shipStatus
+    }
+
+    console.log(`QueryObject: `,searchQueryObject);
+
+    let operations;
+
+    try{
+
+        let operationsFinded = Operation.find(searchQueryObject);
+        operations = await operationsFinded;
+
+    }catch(err){
+        console.log(err);
+    }
+
+    
+    
+
+    //const operations = await Operation.find({ createdBy: userId, shipStatusOptions: status });
 
     res.status(200).json({
         operations,
