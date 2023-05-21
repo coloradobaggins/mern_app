@@ -30,17 +30,24 @@ const createOp = async(req, res)=>{
 const getAllOp = async(req, res)=>{
 
     const { userId } = req.user;
-    const { status:shipStatus } = req.query;
+    const { status:shipStatus, type:operationType, ship: searchShip } = req.query;
     console.log(`query shipStatus: `, shipStatus);
 
     console.log(`GetOperations, userid: ${userId}`);
 
     let searchQueryObject = {
-        createdBy: userId
+        createdBy: userId,
     }
 
-    if(shipStatus !== 'all'){
-        searchQueryObject.shipStatusOptions = shipStatus
+    if(shipStatus !== 'all' ){
+        searchQueryObject.shipStatusOptions = shipStatus;
+    }
+    if( operationType !== 'all') {
+        searchQueryObject.type = operationType;
+    }
+    if(searchShip){
+        //searchQueryObject.ship = searchShip;                              //Exact match
+        searchQueryObject.ship = {$regex: searchShip, $options: 'i'};    // $regex: Pattern matching strings in queries  - $options: Case insensitive
     }
 
     console.log(`QueryObject: `,searchQueryObject);
