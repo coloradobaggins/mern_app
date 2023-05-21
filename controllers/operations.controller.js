@@ -30,7 +30,7 @@ const createOp = async(req, res)=>{
 const getAllOp = async(req, res)=>{
 
     const { userId } = req.user;
-    const { status:shipStatus, type:operationType, ship: searchShip } = req.query;
+    const { status:shipStatus, type:operationType, ship: searchShip, sort } = req.query;
     console.log(`query shipStatus: `, shipStatus);
 
     console.log(`GetOperations, userid: ${userId}`);
@@ -52,12 +52,19 @@ const getAllOp = async(req, res)=>{
 
     console.log(`QueryObject: `,searchQueryObject);
 
+    let operationsFound = Operation.find(searchQueryObject);
+
+    let sortObj = {
+        oldest: 'createdAt',
+        latest: '-createdAt'
+    }
+    operationsFound.sort(sortObj[sort]);
+
     let operations;
 
     try{
 
-        let operationsFinded = Operation.find(searchQueryObject);
-        operations = await operationsFinded;
+        operations = await operationsFound;
 
     }catch(err){
         console.log(err);
