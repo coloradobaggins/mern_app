@@ -62,7 +62,11 @@ const initialState = {
     opPages: 1,                                     //Paginas a mostrar
     cantPages: 1,                                   //Pagina a mostrar por default
     statsOp: {},                                    //Operations stats
-    monthlyOp: []
+    monthlyOp: [],
+    filterShip: '',
+    filterShipStatus: 'all',
+    filterTypeOp: 'all',
+    filterDateSort: 'latest'
 }
 
 const AppContext = React.createContext();
@@ -255,7 +259,7 @@ const AppProvider = ({ children }) => {
     const handleChange = ({name, value})=>{
 
         
-        console.log(`Desde appContext: name: ${name} | value: ${value}`);
+        //console.log(`Desde appContext: name: ${name} | value: ${value}`);
 
         dispatch({type:HANDLE_CHANGE, payload:{name, value} });
         
@@ -315,13 +319,13 @@ const AppProvider = ({ children }) => {
 
     }
 
-    const getOperations = async()=> {
+    const getOperations = async(qParams)=> {
 
         dispatch({type: GET_OP_BEGIN});
 
         try{
 
-            const rawData = await axios.get('/api/v1/operations/op', {
+            const rawData = await axios.get('/api/v1/operations/op?status=all&type=all&ship=n&sort=oldest', {
                 headers:{
                     Authorization: `Bearer ${state.token}`,
                 }

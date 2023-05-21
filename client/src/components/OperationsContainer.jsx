@@ -21,7 +21,7 @@ const OperationsContainer = ()=> {
 
     if(operations.length === 0){
         return <Wrapper>
-            <h3>No hay operaciones cargadas</h3>
+            <h3>Upps... No encontramos operaciones...</h3>
         </Wrapper>
     }
 
