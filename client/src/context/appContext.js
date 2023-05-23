@@ -325,7 +325,7 @@ const AppProvider = ({ children }) => {
 
         try{
 
-            const rawData = await axios.get('/api/v1/operations/op?status=all&type=all&ship=n&sort=oldest', {
+            const rawData = await axios.get('/api/v1/operations/op?status=Todos&type=Todos&ship=n&sort=oldest', {
                 headers:{
                     Authorization: `Bearer ${state.token}`,
                 }
@@ -482,6 +482,10 @@ const AppProvider = ({ children }) => {
 
     }
 
+    const clearFilters = ()=> {
+        console.log(`Clear Filters!`);
+    }
+
     return(
         <AppContext.Provider 
             value={{
@@ -499,7 +503,8 @@ const AppProvider = ({ children }) => {
                 editOperation,
                 deleteOperation,
                 clearFormValues,
-                showStatsOperation
+                showStatsOperation,
+                clearFilters
             }}
         >
             { children }

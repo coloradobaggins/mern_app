@@ -39,10 +39,10 @@ const getAllOp = async(req, res)=>{
         createdBy: userId,
     }
 
-    if(shipStatus !== 'all' ){
+    if(shipStatus !== 'Todos' ){
         searchQueryObject.shipStatusOptions = shipStatus;
     }
-    if( operationType !== 'all') {
+    if( operationType !== 'Todos') {
         searchQueryObject.type = operationType;
     }
     if(searchShip){
