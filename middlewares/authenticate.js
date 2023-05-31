@@ -3,6 +3,8 @@ import { UnauthenticatedError } from "../errors/index.js";
 
 const authenticate = async (req, res, next)=> {
     console.log(`*** authenticate user ***`);
+
+    //{{token}}-> postman
     
     //const headers = req.headers;
     const authorization = req.headers.authorization;
@@ -12,12 +14,18 @@ const authenticate = async (req, res, next)=> {
     //Si no tenemos header auth, throw error
 
     if(!authorization || !authorization.startsWith('Bearer')){
-        console.log(`no authorization or no jwt token correctley formed`);
+        console.log(`no authorization or no jwt token correctly formed`);
         throw new UnauthenticatedError('Autenticacion invalida');
     }
 
     const token = authorization.split(' ')[1];
 
+    let response = {
+        status: 200,
+        msg: 'ok'
+    }
+    
+    
     try{
 
         const payload = jwt.verify(token, process.env.JWT_SECRET);
@@ -27,7 +35,7 @@ const authenticate = async (req, res, next)=> {
         //Obtengo el userId, ver user model createJWT()
         //Dejo accesible el userId para los controllers
         req.user = {
-            userId: payload.userId
+            userId: payload.userId  //(from user model)
         }
 
         console.log(`req.user: `);
@@ -39,9 +47,13 @@ const authenticate = async (req, res, next)=> {
 
         console.log(err);
         console.log(`no jwt token`);
-        throw new UnauthenticatedError('Autenticacion invalida');
 
+        response.status = 500;
+        response.msg = err.message;
+
+        throw new UnauthenticatedError('Autenticacion invalida');
     }
+    
 
     
 }

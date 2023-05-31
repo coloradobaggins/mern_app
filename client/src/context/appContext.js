@@ -29,7 +29,8 @@ import {
         UPDATE_OP_SUCCESS,
         UPDATE_OP_ERROR,
         SHOW_STATS_BEGIN,
-        SHOW_STATS_SUCCESS
+        SHOW_STATS_SUCCESS,
+        CLEAR_FILTERS
     } from './actions';
 
 
@@ -484,6 +485,10 @@ const AppProvider = ({ children }) => {
 
     const clearFilters = ()=> {
         console.log(`Clear Filters!`);
+
+        dispatch({
+            type: CLEAR_FILTERS 
+        });
     }
 
     return(

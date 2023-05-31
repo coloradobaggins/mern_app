@@ -28,6 +28,7 @@ import {
             UPDATE_OP_ERROR,
             SHOW_STATS_BEGIN,
             SHOW_STATS_SUCCESS,
+            CLEAR_FILTERS
         } from './actions';
 
 const reducer = (state, action)=>{
@@ -300,6 +301,16 @@ const reducer = (state, action)=>{
             isLoading: false,
             statsOp: action.payload.stats,
             monthlyOp: action.payload.monthlyOp
+        }
+   }
+
+   if(action.type === CLEAR_FILTERS){
+
+        return {
+            ...state,
+            filterShip: '',
+            filterShipStatus: 'all',
+            filterTypeOp: 'all'
         }
    }
 
