@@ -1,0 +1,22 @@
+version: "3"
+
+services:
+  client:
+    build:
+      context: ./client  # Ruta relativa a la carpeta actual
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    networks:
+      - mern_app_network
+
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    networks:
+      - mern_app_network
+networks:
+  mern_app_network:
